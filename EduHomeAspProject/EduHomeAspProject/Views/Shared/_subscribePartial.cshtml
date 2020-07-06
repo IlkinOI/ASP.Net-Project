@@ -1,0 +1,40 @@
+﻿@model EduHomeAspProject.ViewModels.VMSubscribe
+
+    <div class="subscribe-area pt-60 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="subscribe-content section-title text-center">
+                        <h2>subscribe our newsletter</h2>
+                        <p>I must explain to you how all this mistaken idea </p>
+                    </div>
+                    <div class="newsletter-form mc_embed_signup">
+                        <form action="@Url.Action("Subscribe","Subscribe")" method="post">
+                            <div class="mc-form">
+                                <input type="email" name="Email" class="email" placeholder="Enter your e-mail address" required>
+                                
+                                <button class="default-btn" type="submit"><span>subscribe</span></button>
+                            </div>
+                            <input type="hidden" name="Page" value="@Model.Page" />
+                            <input type="hidden" name="pageId" value="@Model.pagedetailId" />
+                            @if (Session["Subscribed"] != null)
+                            {
+                                Session["Subscribed"] = null;
+
+                                <div class="alert alert-success">
+                                    You are Subscribed!
+                                </div>
+                            }
+                        </form>
+                        <!-- mailchimp-alerts Start -->
+                        <div class="mailchimp-alerts">
+                            <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
+                            <div class="mailchimp-success"></div><!-- mailchimp-success end -->
+                            <div class="mailchimp-error"></div><!-- mailchimp-error end -->
+                        </div>
+                        <!-- mailchimp-alerts end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

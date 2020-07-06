@@ -1,0 +1,110 @@
+﻿@model EduHomeAspProject.ViewModels.VMCourseDetail
+@{
+    ViewBag.Title = "CourseDetails";
+}
+
+<!-- Banner Area Start -->
+<div class="banner-area-wrapper">
+    <div class="banner-area text-center" style="background-image:url(/Uploads/@Model.BGImage.Image)">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="banner-content-wrapper">
+                        <div class="banner-content">
+                            <h2>@Model.BGImage.TItle</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner Area End -->
+<!-- Blog Start -->
+<div class="courses-details-area blog-area pt-150 pb-140">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="courses-details">
+                    <div class="courses-details-img">
+                        <img style="width:767px" src="~/Uploads/@Model.Course.Image" alt="courses-details">
+                    </div>
+                    <div class="course-details-content">
+                        <h2>@Model.Course.Name</h2>
+                        <p>@Html.Raw(Model.Course.Content)</p>
+
+
+                    </div>
+                    <div class="course-details-right" style="width:100%">
+                        <h3>COURSE FEATURES</h3>
+                        <ul>
+                            <li>starts <span>@Model.Course.StartDate</span></li>
+                            <li>duration <span>@Model.Course.CourseDuration Month</span></li>
+                            <li>class duration <span>@Model.Course.ClassDuration hours</span></li>
+                            <li>skill level <span>@Model.Course.SkillLevel</span></li>
+                            <li>language <span>@Model.Course.Language</span></li>
+                            <li>students <span>@Model.Course.StudentsCount</span></li>
+                            <li>assesments <span>@Model.Course.Assessments</span></li>
+                        </ul>
+                        <h3 class="red">course fee $@Model.Course.StudentsCount</h3>
+                    </div>
+                    @if (Session["User"]!=null)
+                    {
+                        Html.RenderPartial("~/Views/Shared/_messagePartial.cshtml", new EduHomeAspProject.ViewModels.VMMessage { Page = "CourseDetails", BlogId = Model.Course.Id, UserId = (int)Session["UserId"] });
+
+                    }
+                    @{
+                        Html.RenderPartial("~/Views/Shared/_messagePartial.cshtml", new EduHomeAspProject.ViewModels.VMMessage { Page = "CourseDetails", CourseId = Model.Course.Id });
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-sidebar right">
+                    <div class="single-blog-widget mb-50">
+                        <h3>search</h3>
+                        <div class="blog-search">
+                            <form id="search" action="#">
+                                <input type="search" placeholder="Search..." name="search" />
+                                <button type="submit">
+                                    <span><i class="fa fa-search"></i></span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="single-blog-widget mb-50">
+                        <h3>categories</h3>
+                        <ul>
+                            @foreach (var item in Model.Categories)
+                            {
+                                <li><a href="@Url.Action("Index","Course")">@item.Name (@Model.Courses.Where(e => e.CourseCategoryId == item.Id).Count())</a></li>
+                            }
+                        </ul>
+                    </div>
+                    @{
+                        Html.RenderPartial("~/Views/Shared/_sloganCommonPartial.cshtml", Model.Common);
+                    }
+                    @{
+                        Html.RenderPartial("~/Views/Shared/_latestBlogsPartial.cshtml", Model.LatestBlogs);
+                    }
+                    <div class="single-blog-widget">
+                        <h3>tags</h3>
+                        <div class="single-tag">
+                            <a href="blog-details.html" class="mr-10 mb-10">course</a>
+                            <a href="blog-details.html" class="mr-10 mb-10">education</a>
+                            <a href="blog-details.html" class="mb-10">teachers</a>
+                            <a href="blog-details.html" class="mr-10">learning</a>
+                            <a href="blog-details.html" class="mr-10">university</a>
+                            <a href="blog-details.html">events</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Blog End -->
+<!-- Subscribe Start -->
+@{
+    Html.RenderPartial("~/Views/Shared/_subscribePartial.cshtml", new EduHomeAspProject.ViewModels.VMSubscribe { Page = "CourseDetails", pagedetailId = Model.Course.Id });
+}
+<!-- Subscribe End -->

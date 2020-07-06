@@ -1,0 +1,120 @@
+﻿@model EduHomeAspProject.ViewModels.VMEventDetail
+@{
+    ViewBag.Title = "EventDetails";
+}
+
+
+<!-- Banner Area Start -->
+<div class="banner-area-wrapper">
+    <div class="banner-area text-center" style="background-image:url(/Uploads/@Model.BGImage.Image)">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="banner-content-wrapper">
+                        <div class="banner-content">
+                            <h2>@Model.BGImage.TItle</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner Area End -->
+<!-- Event Details Start -->
+<div class="event-details-area blog-area pt-150 pb-140">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="event-details">
+                    <div class="event-details-img">
+                        <img style="width:767px" src="~/Uploads/@Model.Event.Image" alt="event-details">
+                        <div class="event-date">
+                            <h3>@Model.Event.EventDate</h3>
+                        </div>
+                    </div>
+                    <div class="event-details-content">
+                        <h2>@Model.Event.Name</h2>
+                        <ul>
+                            <li><span>time : </span>@Model.Event.EventTime</li>
+                            <li><span>venue : </span>@Model.Event.EventVenue</li>
+                        </ul>
+                        <p>@Html.Raw(Model.Event.Content)</p>
+                        <div class="speakers-area fix">
+                            <h4>speakers</h4>
+                            @foreach (var item in Model.EventSpeakers)
+                            {
+                                <div class="single-speaker">
+                                    <div class="speaker-img">
+                                        <img src="~/Uploads/@item.Speaker.Image" alt="speaker">
+                                    </div>
+                                    <div class="speaker-name">
+                                        <h5>@item.Speaker.Fullname</h5>
+                                        <p>@item.Speaker.Position</p>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                    @if (Session["User"] != null)
+                    {
+
+                        Html.RenderPartial("~/Views/Shared/_messagePartial.cshtml", new EduHomeAspProject.ViewModels.VMMessage { Page = "EventDetails", EventId = Model.Event.Id, UserId = (int)Session["UserId"] });
+
+                    }
+                    @{
+                        Html.RenderPartial("~/Views/Shared/_messagePartial.cshtml", new EduHomeAspProject.ViewModels.VMMessage { Page = "EventDetails", EventId = Model.Event.Id });
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-sidebar right">
+                    <div class="single-blog-widget mb-50">
+                        <h3>search</h3>
+                        <div class="blog-search">
+                            <form id="search" action="#">
+                                <input type="search" placeholder="Search..." name="search" />
+                                <button type="submit">
+                                    <span><i class="fa fa-search"></i></span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="single-blog-widget mb-50">
+                        <h3>categories</h3>
+                        <ul>
+                            @foreach (var item in Model.Categories)
+                            {
+                                <li><a href="@Url.Action("Index","Event")">@item.Name (@Model.Events.Where(e => e.EventCategoryId == item.Id).Count())</a></li>
+                            }
+                        </ul>
+                    </div>
+                    @{
+                        Html.RenderPartial("~/Views/Shared/_sloganCommonPartial.cshtml", Model.Common);
+                    }
+                    @{
+                        Html.RenderPartial("~/Views/Shared/_latestBlogsPartial.cshtml", Model.LatestBlogs);
+                    }
+                    <div class="single-blog-widget">
+                        <h3>tags</h3>
+                        <div class="single-tag">
+                            <a href="blog-details.html" class="mr-10 mb-10">course</a>
+                            <a href="blog-details.html" class="mr-10 mb-10">education</a>
+                            <a href="blog-details.html" class="mb-10">teachers</a>
+                            <a href="blog-details.html" class="mr-10">learning</a>
+                            <a href="blog-details.html" class="mr-10">university</a>
+                            <a href="blog-details.html">events</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Event Details End -->
+<!-- Subscribe Start -->
+@{
+    Html.RenderPartial("~/Views/Shared/_subscribePartial.cshtml", new EduHomeAspProject.ViewModels.VMSubscribe { Page = "EventDetails", pagedetailId = Model.Event.Id });
+}
+<!-- Subscribe End -->

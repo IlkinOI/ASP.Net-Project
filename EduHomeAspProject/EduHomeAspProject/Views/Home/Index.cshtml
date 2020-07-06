@@ -1,0 +1,202 @@
+﻿@model EduHomeAspProject.ViewModels.VMHome
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<!-- Background Area Start -->
+<section id="slider-container" class="slider-area two">
+    <div class="slider-owl owl-theme owl-carousel">
+        <!-- Start Slingle Slide -->
+        @foreach (var item in Model.Sliders)
+        {
+            <div class="single-slide item" style="background-image: url(/Uploads/@item.Image)">
+                <!-- Start Slider Content -->
+                <div class="slider-content-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <div class="slide-content-wrapper">
+                                    <div class="slide-content text-center">
+                                        <h2>@item.Title</h2>
+                                        <p>@item.Text</p>
+                                        <a class="default-btn" href="@Url.Action("Index","About")">Learn more</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Start Slider Content -->
+            </div>
+        }
+        <!-- End Slingle Slide -->
+    </div>
+</section>
+<!-- Background Area End -->
+<!-- Service Start -->
+<div class="service-area two pt-150 pb-150">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model.Teachers)
+            {
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="single-service">
+                        <h3><a href="@Url.Action("TeacherDetails","Teacher", new { id=item.Id})">@item.Fullname</a></h3>
+                        <p>@item.About</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Service End -->
+<!-- About Start -->
+@{
+    Html.RenderPartial("~/Views/Shared/_aboutPartial.cshtml", Model.About);
+}
+<!-- About End -->
+<!-- Courses Area Start -->
+<div class="courses-area two pt-150 pb-150 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="section-title">
+                    <img src="/Uploads/@Model.Common.BookLogoWhite" alt="section-title">
+                    <h2>COURSES WE OFFER</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model.Courses)
+            {
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="single-course">
+                        <div class="course-img">
+                            <a href="@Url.Action("CourseDetails","Course", new { id=item.Id})">
+                                <img src="/Uploads/@item.Image" alt="course">
+                                <div class="course-hover">
+                                    <i class="fa fa-link"></i>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="course-content">
+                            <h3><a href="@Url.Action("CourseDetails","Course", new { id=item.Id})">@item.Name</a></h3>
+                            <p>@Html.Raw(item.Content.Length > 100 ? item.Content.Substring(0, 100) + "..." : item.Content)</p>
+                            <a class="default-btn" href="@Url.Action("CourseDetails","Course", new { id=item.Id})">read more</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Courses Area End -->
+<!-- Notice Start -->
+<section class="notice-area two pt-140">
+    <div class="container">
+        <div class="row">
+            @{
+                Html.RenderPartial("~/Views/Shared/_videoPartial.cshtml", Model.Common);
+            }
+            @{
+                Html.RenderPartial("~/Views/Shared/_noticePartial.cshtml", Model.Events);
+            }
+        </div>
+    </div>
+</section>
+<!-- Notice End -->
+<!-- Event Area Start -->
+<div class="event-area two text-center pt-100 pb-145">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="section-title">
+                    <img src="/Uploads/@Model.Common.BookLogoRed" alt="section-title">
+                    <h2>UPCOMMING EVENTS</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model.Events)
+            {
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="single-event mb-35">
+                        <div class="event-img">
+                            <a href="@Url.Action("EventDetails","Event")"><img src="~/Uploads/@item.Image" alt="event" style="width:260px;height:100%"></a>
+                        </div>
+                        <div class="event-content text-left">
+                            <h3>20 June 2017</h3>
+                            <h4><a href="@Url.Action("EventDetails","Event", new { id=item.Id})">@item.Name</a></h4>
+                            <ul>
+                                <li><i class="fa fa-clock-o"></i>@item.EventTime</li>
+                                <li><i class="fa fa-map-marker"></i>@item.EventVenue</li>
+                            </ul>
+                            <div class="event-content-right">
+                                <a class="default-btn" href="@Url.Action("EventDetails","Event", new { id=item.Id})">join now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Event Area End -->
+<!-- Testimonial Area Start -->
+<div class="testimonial-area pt-110 pb-105 text-center" style="background-image:url(/Uploads/@Model.TestMorial.ImageBG">
+    <div class="container">
+        <div class="row">
+            <div class="testimonial-owl owl-theme owl-carousel">
+                @{
+                    Html.RenderPartial("~/Views/Shared/_testmonialPartial.cshtml", Model.TestMorials);
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonial Area End -->
+<!-- Blog Area Start -->
+<div class="blog-area pt-150 pb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="section-title text-center">
+                    <img src="/Uploads/@Model.Common.BookLogoRed" alt="section-title">
+                    <h2>LATEST FROM BLOG</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model.Blogs)
+            {
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="single-blog">
+                        <div class="blog-img">
+                            <a href="@Url.Action("BlogDetails", "Blog", new { id = item.Id })"><img src="~/Uploads/@item.Image" alt="blog"></a>
+                            <div class="blog-hover">
+                                <a href="@Url.Action("BlogDetails", "Blog", new { id = item.Id })"><i class="fa fa-link"></i></a>
+                            </div>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-top">
+                                <p>By @item.User.Firstname  /  @item.CreatedDate  /  <i class="fa fa-comments-o"></i> @item.ReplyCount</p>
+                            </div>
+                            <div class="blog-bottom">
+                                <h2><a href="@Url.Action("BlogDetails", "Blog", new { id = item.Id } )">I must explain to you how all this a mistaken idea </a></h2>
+                                <a href="@Url.Action("BlogDetails","Blog",new { id = item.Id } )">read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Blog Area End -->
+<!-- Subscribe Start -->
+@{
+    Html.RenderPartial("~/Views/Shared/_subscribePartial.cshtml", new EduHomeAspProject.ViewModels.VMSubscribe { Page = "Home" });
+}
+<!-- Subscribe End -->

@@ -1,0 +1,21 @@
+﻿@model List<EduHomeAspProject.Models.Blog>
+<div class="single-blog-widget mb-50">
+    <h3>latest post</h3>
+    @foreach (var item in Model)
+    {
+        <div class="single-post mb-30">
+            <div class="single-post-img">
+                <a href="@Url.Action("BlogDetails","Blog", new { id=item.Id})">
+                    <img style="width:95px;margin-top: 10px;" src="~/Uploads/@item.Image" alt="post">
+                    <div class="blog-hover">
+                        <i class="fa fa-link"></i>
+                    </div>
+                </a>
+            </div>
+            <div class="single-post-content">
+                <h4><a href="@Url.Action("BlogDetails","Blog", new { id=item.Id})">@item.BlogCategory.Name Course for you</a></h4>
+                <p>By @item.User.Firstname  /  @item.CreatedDate.ToString("dd MMMM,yyyy")</p>
+            </div>
+        </div>
+    }
+</div>

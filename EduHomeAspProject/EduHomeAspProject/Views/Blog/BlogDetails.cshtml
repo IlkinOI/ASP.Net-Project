@@ -1,0 +1,95 @@
+﻿@model EduHomeAspProject.ViewModels.VMBlogDetail
+@{
+    ViewBag.Title = "BlogDetails";
+}
+<!-- Banner Area Start -->
+<div class="banner-area-wrapper">
+    <div class="banner-area text-center" style="background-image:url(/Uploads/@Model.BGImage.Image)">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="banner-content-wrapper">
+                        <div class="banner-content">
+                            <h2>@Model.BGImage.TItle</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner Area End -->
+<!-- Blog Start -->
+<div class="blog-details-area pt-150 pb-140">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="blog-details">
+                    <div class="blog-details-img">
+                        <img style="width:767px" src="~/Uploads/@Model.Blog.Image" alt="blog-details">
+                    </div>
+                    <div class="blog-details-content">
+                        <h2>@Model.Blog.Title</h2>
+                        <h6>By @Model.Blog.User.Username /  @Model.Blog.CreatedDate  /  <i class="fa fa-comments-o"></i> @Model.Blog.ReplyCount</h6>
+                        <p>@Html.Raw(Model.Blog.Content)</p>
+                    </div>
+                    @if (Session["User"]!=null)
+                    {
+                        Html.RenderPartial("~/Views/Shared/_messagePartial.cshtml", new EduHomeAspProject.ViewModels.VMMessage { Page = "BlogDetails", BlogId = Model.Blog.Id, UserId = (int)Session["UserId"] });
+
+                    }
+                    @{
+                        Html.RenderPartial("~/Views/Shared/_messagePartial.cshtml", new EduHomeAspProject.ViewModels.VMMessage { Page = "BlogDetails", BlogId = Model.Blog.Id});
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-sidebar right">
+                    <div class="single-blog-widget mb-47">
+                        <h3>search</h3>
+                        <div class="blog-search">
+                            <form id="search" action="#">
+                                <input type="search" placeholder="Search..." name="search" />
+                                <button type="submit">
+                                    <span><i class="fa fa-search"></i></span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="single-blog-widget mb-47">
+                        <h3>categories</h3>
+                        <ul>
+                            @foreach (var item in Model.Categories)
+                            {
+                                <li><a href="@Url.Action("Index","Blog")">@item.Name (@Model.Blogs.Where(b => b.BlogCategoryId == item.Id).Count())</a></li>
+                            }
+                        </ul>
+                    </div>
+                    @{
+                        Html.RenderPartial("~/Views/Shared/_sloganCommonPartial.cshtml", Model.Common);
+                    }
+                    @{
+                        Html.RenderPartial("~/Views/Shared/_latestBlogsPartial.cshtml", Model.LatestBlogs);
+                    }
+                    <div class="single-blog-widget">
+                        <h3>tags</h3>
+                        <div class="single-tag">
+                            <a href="@Url.Action("Index","Blog")" class="mr-10 mb-10">course</a>
+                            <a href="@Url.Action("Index","Blog")" class="mr-10 mb-10">education</a>
+                            <a href="@Url.Action("Index","Blog")" class="mb-10">teachers</a>
+                            <a href="@Url.Action("Index","Blog")" class="mr-10">learning</a>
+                            <a href="@Url.Action("Index","Blog")" class="mr-10">university</a>
+                            <a href="@Url.Action("Index","Blog")">events</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Blog End -->
+<!-- Subscribe Start -->
+@{
+    Html.RenderPartial("~/Views/Shared/_subscribePartial.cshtml", new EduHomeAspProject.ViewModels.VMSubscribe { Page = "BlogDetails", pagedetailId = Model.Blog.Id });
+}
+<!-- Subscribe End -->
